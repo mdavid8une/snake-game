@@ -8,10 +8,13 @@ public class Snake {
 
     public static final int MAX_LENGTH = 32;
     public static final int MAX_ARRAY = 33;
-    private Position []snakePositions = new Position[MAX_ARRAY];
+
+    private Position []snakePositions = new Position[MAX_ARRAY]; // circular array
+
     private int snakeLength;
     private int snakeHeadIndex;
     private int snakeTailIndex;
+
     private SnakeDirection currentDirection;
     private SnakeDirection nextDirection;
 
@@ -22,6 +25,7 @@ public class Snake {
 
         snakePositions[0] = new Position(1,1);
         snakePositions[1] = new Position(2, 1);
+
         currentDirection = nextDirection = SnakeDirection.SNAKE_RIGHT;
     }
 
@@ -80,11 +84,12 @@ public class Snake {
         }
 
         snakeHeadIndex++;
+
         if (snakeHeadIndex == MAX_ARRAY) {
-            snakeHeadIndex = 0;
+            snakeHeadIndex = 0; // because circular array
         }
         snakePositions[snakeHeadIndex] = newHeadPos;
-        snakeLength++;
+        snakeLength++; // grow snake
 
         if (GameManager.getManager().getFoodManager().isFoodAt(newHeadPos) >= 0) {
             if (snakeLength <= MAX_LENGTH) {
@@ -98,14 +103,17 @@ public class Snake {
         return SnakeMoveResult.SNAKE_MOVE_OK;
     }
 
+    /**
+     * To be called after succesful atempt to move snake head and if snake did not ate food
+     */
     public void advanceSnakeTail() {
         //Position previous = snakePositions[snakeTailIndex];
 
         snakeTailIndex++;
         if (snakeTailIndex == MAX_ARRAY) {
-            snakeTailIndex = 0;
+            snakeTailIndex = 0; // because of circular array implementation reset to 0
         }
-        snakeLength--;
+        snakeLength--; // since not ate food shrink the length that is grow in the advance_snake_head metho
     }
 
     public boolean isSnakeAt(Position position) {

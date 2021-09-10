@@ -74,8 +74,9 @@ public class GameManager {
             int food = foodManager.isFoodAt(newHeadPosition);
             if (food != -1) {
                 foodManager.removeFood(food);
+                foodManager.addNewFood(width, height);
             }
-            foodManager.addNewFood(width, height);
+
         }
         if (result == SnakeMoveResult.SNAKE_MOVE_OK ||
                 result == SnakeMoveResult.ATE_BUT_CANT_GROW) {

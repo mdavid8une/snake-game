@@ -6,7 +6,7 @@ import java.util.List;
 
 public class FoodManager {
 
-    public static final int MAX_FOOD = 8;
+    public static final int MAX_FOOD = 6;
 
 
     private Position [] foodPositions = new Position[MAX_FOOD];
