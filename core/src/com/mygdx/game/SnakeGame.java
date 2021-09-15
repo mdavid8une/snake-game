@@ -19,32 +19,56 @@ public class SnakeGame extends ApplicationAdapter {
 	int boxSize = 50;
 	int width = 10;
 	int height = 10;
+
 	OrthographicCamera camera;
 	FitViewport viewport;
 	ShapeRenderer shape;
+
+	// snake will default move every half seconds
 	long lastMoveTime = 0;
 
+
+	/**
+	 * When Game starts this method is called first
+	 */
 	@Override
 	public void create () {
 		//batch = new SpriteBatch();
 		//img = new Texture("badlogic.jpg");
+		// start the game manager
 		GameManager.startUp();
+
+		// setup camera
 		float w = Gdx.graphics.getWidth();
 		float h = Gdx.graphics.getHeight();
 		camera = new OrthographicCamera(10, 10);
 		camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
 		camera.update();
+
+		// setup shape renderer instead of shape renderer spritebatch can also be used to render images instead of shapes
 		shape = new ShapeRenderer();
+
+		// viewport for the camera
 		viewport = new FitViewport(10, 10, camera);
 
 	}
 
+	/**
+	 * When window is resized this method is called
+	 * @param width
+	 * @param height
+	 */
 	@Override
 	public void resize(int width, int height) {
 		viewport.update(width, height);
 	}
 
 
+	/**
+	 * Not used, supposed to be used when libgdx reverses y coordinate
+	 * @param y
+	 * @return
+	 */
 	private float toScreenY(float y) {
 		float height = Gdx.graphics.getHeight();
 
@@ -52,6 +76,10 @@ public class SnakeGame extends ApplicationAdapter {
 		return y;
 	}
 
+	/**
+	 * This method is called by libgdx repeatedly
+	 * amount of fps (frames per second) is directly related to how many times per second this method can run
+	 */
 	@Override
 	public void render () {
 		long currentTime = System.currentTimeMillis();
@@ -75,6 +103,7 @@ public class SnakeGame extends ApplicationAdapter {
 		if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
 			GameManager.getManager().getSnake().setNextDirection(SnakeDirection.SNAKE_DOWN);
 		}
+
 		// rendering view to screen
 		ScreenUtils.clear(0, 0, 0, 1); // clear the screen to black
 		shape.setProjectionMatrix(camera.combined); //shapeRendered projection matrix set to camera
